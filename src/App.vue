@@ -22,6 +22,7 @@ import BasicLayout from "./layouts/BasicLayout.vue";
 const store = useStore();
 
 const router = useRouter();
+
 router.beforeEach((to, from, next) => {
   // 仅管理员可见，判断当前用户是否有权限
   if (to.meta?.access === "canAdmin") {

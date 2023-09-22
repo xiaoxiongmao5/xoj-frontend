@@ -1,3 +1,4 @@
+import ACCESS_ENUM from "@/access/accessEnum";
 import { StoreOptions } from "vuex";
 
 // // 存储的状态信息，比如用户信息
@@ -30,16 +31,13 @@ export default {
   state: () => ({
     loginUser: {
       userName: "未登录",
-      role: "notLogin",
+      userRole: ACCESS_ENUM.NOT_LOGIN,
     },
   }),
   getters: {},
   actions: {
     async getLoginUser({ commit, state }, payload) {
-      commit("updateUser", {
-        userName: "小熊",
-        role: "admin",
-      });
+      commit("updateUser", payload);
     },
   },
   mutations: {

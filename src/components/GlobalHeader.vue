@@ -17,7 +17,7 @@
             <div class="title">XOJ</div>
           </div>
         </a-menu-item>
-        <a-menu-item v-for="item in routes" :key="item.path">
+        <a-menu-item v-for="item in visibleRoutes" :key="item.path">
           {{ item.name }}
         </a-menu-item>
       </a-menu>
@@ -33,13 +33,32 @@
 <script setup lang="ts">
 import { routes } from "@/router/routes";
 import { useRoute, useRouter } from "vue-router";
-import { ref, useSlots } from "vue";
+import { computed, ref, useSlots } from "vue";
 import { useStore } from "vuex";
+import checkAccess from "@/access/checkAccess";
+import ACCESS_ENUM from "@/access/accessEnum";
+
+const router = useRouter();
+const store = useStore();
 
 // 获取路由信息
 // const route = useRoute();
 
-const router = useRouter();
+// 展示在菜单的路由数组
+const visibleRoutes = computed(() => {
+  return routes.filter((item, index) => {
+    if (item.meta?.hideInMenu) {
+      return false;
+    }
+    // 根据权限过滤菜单
+    if (
+      !checkAccess(store.state.user.loginUser, item?.meta?.access as string)
+    ) {
+      return false;
+    }
+    return true;
+  });
+});
 
 // 默认主页
 const selectedKeys = ref(["/"]);
@@ -55,16 +74,15 @@ const doMenuClick = (key: string) => {
   });
 };
 
-const store = useStore();
 console.log(store.state.user);
 
-// setTimeout(() => {
-//   //   store.dispatch("user/getLoginUser", {
-//   store.dispatch("getLoginUser", {
-//     userName: "小熊",
-//     role: "admin",
-//   });
-// }, 5000);
+setTimeout(() => {
+  //   store.dispatch("user/getLoginUser", {
+  store.dispatch("getLoginUser", {
+    userName: "小熊",
+    userRole: ACCESS_ENUM.ADMIN,
+  });
+}, 3000);
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
