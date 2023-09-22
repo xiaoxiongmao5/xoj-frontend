@@ -1,5 +1,5 @@
 <template>
-  <a-row id="globalHeader" align="center" style="margin-bottom: 16px">
+  <a-row id="globalHeader" align="center" :wrap="false">
     <a-col flex="auto">
       <!-- :default-selected-keys="['1']" -->
       <a-menu
@@ -58,13 +58,13 @@ const doMenuClick = (key: string) => {
 const store = useStore();
 console.log(store.state.user);
 
-setTimeout(() => {
-  //   store.dispatch("user/getLoginUser", {
-  store.dispatch("getLoginUser", {
-    userName: "小熊",
-    role: "admin",
-  });
-}, 5000);
+// setTimeout(() => {
+//   //   store.dispatch("user/getLoginUser", {
+//   store.dispatch("getLoginUser", {
+//     userName: "小熊",
+//     role: "admin",
+//   });
+// }, 5000);
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
