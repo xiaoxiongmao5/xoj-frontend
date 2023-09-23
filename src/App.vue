@@ -15,9 +15,22 @@
 </style>
 
 <script setup lang="ts">
+import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import BasicLayout from "./layouts/BasicLayout.vue";
+
+/**
+ * 全局初始化函数，有全局单单次用的代码，都可以写在这里
+ *
+ */
+const doInit = () => {
+  console.log("hello 欢迎来到我的项目");
+};
+// 钩子函数
+onMounted(() => {
+  doInit();
+});
 
 const store = useStore();
 
