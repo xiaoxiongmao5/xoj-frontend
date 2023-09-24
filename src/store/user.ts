@@ -26,18 +26,37 @@ import { StoreOptions } from "vuex";
 //   },
 // };
 
+function test() {
+  return {
+    code: 0,
+    data: {
+      userName: "小熊",
+      userRole: ACCESS_ENUM.USER,
+    },
+  };
+}
+
 export default {
   namespace: true,
   state: () => ({
     loginUser: {
       userName: "未登录",
-      userRole: ACCESS_ENUM.NOT_LOGIN,
     },
   }),
   getters: {},
   actions: {
     async getLoginUser({ commit, state }, payload) {
-      commit("updateUser", payload);
+      // 从远程请求获取登录信息
+      const res = await test();
+      console.log("res=", res);
+      if (res.code === 0) {
+        commit("updateUser", res.data);
+      } else {
+        commit("updateUser", {
+          ...state.loginUser,
+          userRole: ACCESS_ENUM.NOT_LOGIN,
+        });
+      }
     },
   },
   mutations: {
