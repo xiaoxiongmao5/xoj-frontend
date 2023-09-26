@@ -24,7 +24,7 @@
     </a-col>
     <a-col flex="100px">
       <div>
-        {{ store.state.user?.loginUser?.userName ?? "未登录" }}
+        {{ store.state.user?.loginUser?.username ?? "未登录" }}
       </div>
     </a-col>
   </a-row>
@@ -74,13 +74,13 @@ const doMenuClick = (key: string) => {
   });
 };
 
-console.log(store.state.user);
+console.log("store.state.user", store.state.user);
 
 // setTimeout(() => {
 //   //   store.dispatch("user/getLoginUser", {
 //   store.dispatch("getLoginUser", {
-//     userName: "小熊",
-//     userRole: ACCESS_ENUM.ADMIN,
+//     username: "小熊",
+//     userrole: ACCESS_ENUM.ADMIN,
 //   });
 // }, 3000);
 </script>

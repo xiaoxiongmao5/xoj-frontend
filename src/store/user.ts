@@ -1,10 +1,11 @@
 import ACCESS_ENUM from "@/access/accessEnum";
 import { StoreOptions } from "vuex";
+import { Service } from "../../generated";
 
 // // 存储的状态信息，比如用户信息
 // const state = () => ({
 //   loginUser: {
-//     userName: "未登录",
+//     username: "未登录",
 //   },
 // });
 
@@ -21,40 +22,40 @@ import { StoreOptions } from "vuex";
 // const actions = {
 //   async getLoginUser({ commit, state }, userInfo) {
 //     commit("updateUser", {
-//       userName: "小熊",
+//       username: "小熊",
 //     });
 //   },
 // };
 
-function test() {
-  return {
-    code: 0,
-    data: {
-      userName: "小熊",
-      userRole: ACCESS_ENUM.USER,
-    },
-  };
-}
+// function test() {
+//   return {
+//     code: 0,
+//     data: {
+//       username: "小熊",
+//       userrole: ACCESS_ENUM.USER,
+//     },
+//   };
+// }
 
 export default {
   namespace: true,
   state: () => ({
     loginUser: {
-      userName: "未登录",
+      username: "未登录",
     },
   }),
   getters: {},
   actions: {
     async getLoginUser({ commit, state }, payload) {
       // 从远程请求获取登录信息
-      const res = await test();
+      const res = await Service.getUserUinfo();
       console.log("res=", res);
       if (res.code === 0) {
         commit("updateUser", res.data);
       } else {
         commit("updateUser", {
           ...state.loginUser,
-          userRole: ACCESS_ENUM.NOT_LOGIN,
+          userrole: ACCESS_ENUM.NOT_LOGIN,
         });
       }
     },
