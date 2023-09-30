@@ -1,3 +1,11 @@
+/*
+ * @Author: 小熊 627516430@qq.com
+ * @Date: 2023-09-22 16:15:19
+ * @LastEditors: 小熊 627516430@qq.com
+ * @LastEditTime: 2023-09-30 14:15:12
+ * @FilePath: /xoj/xoj-frontend/src/store/user.ts
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import ACCESS_ENUM from "@/access/accessEnum";
 import { StoreOptions } from "vuex";
 import { Service } from "../../generated";
@@ -27,35 +35,25 @@ import { Service } from "../../generated";
 //   },
 // };
 
-// function test() {
-//   return {
-//     code: 0,
-//     data: {
-//       username: "小熊",
-//       userrole: ACCESS_ENUM.USER,
-//     },
-//   };
-// }
-
 export default {
   namespace: true,
   state: () => ({
     loginUser: {
-      username: "未登录",
+      userName: "未登录",
     },
   }),
   getters: {},
   actions: {
     async getLoginUser({ commit, state }, payload) {
       // 从远程请求获取登录信息
-      const res = await Service.getUserUinfo();
+      const res = await Service.getUserGetLogin();
       console.log("res=", res);
       if (res.code === 0) {
         commit("updateUser", res.data);
       } else {
         commit("updateUser", {
           ...state.loginUser,
-          userrole: ACCESS_ENUM.NOT_LOGIN,
+          userRole: ACCESS_ENUM.NOT_LOGIN,
         });
       }
     },

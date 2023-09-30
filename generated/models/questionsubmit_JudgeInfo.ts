@@ -3,9 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type models_UserRegisterParams = {
-    checkUserpassword?: string;
-    useraccount?: string;
-    userpassword?: string;
+export type questionsubmit_JudgeInfo = {
 };
 

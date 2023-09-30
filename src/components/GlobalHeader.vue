@@ -24,7 +24,7 @@
     </a-col>
     <a-col flex="100px">
       <div>
-        {{ store.state.user?.loginUser?.username ?? "未登录" }}
+        {{ store.state.user?.loginUser?.userName ?? "未登录" }}
       </div>
     </a-col>
   </a-row>
@@ -80,7 +80,7 @@ console.log("store.state.user", store.state.user);
 //   //   store.dispatch("user/getLoginUser", {
 //   store.dispatch("getLoginUser", {
 //     username: "小熊",
-//     userrole: ACCESS_ENUM.ADMIN,
+//     userRole: ACCESS_ENUM.ADMIN,
 //   });
 // }, 3000);
 </script>
