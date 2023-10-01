@@ -6,7 +6,7 @@
 import type { vo_QuestionSubmitVO } from './vo_QuestionSubmitVO';
 
 export type swagtype_listQuestionSubmitVO = {
-    data?: Array<vo_QuestionSubmitVO>;
+    records?: Array<vo_QuestionSubmitVO>;
     total?: number;
 };
 

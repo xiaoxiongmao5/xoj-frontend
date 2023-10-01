@@ -41,7 +41,7 @@ const searchParams = ref({
 const loadData = async () => {
   const res = await Service.postQuestionListPage(searchParams.value);
   if (res.code === 0) {
-    dataList.value = res.data?.data ?? [];
+    dataList.value = res.data?.records ?? [];
     total.value = res.data?.total ?? 0;
   } else {
     message.error("加载失败，" + res.message);

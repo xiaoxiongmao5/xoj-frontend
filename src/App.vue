@@ -1,3 +1,11 @@
+<!--
+ * @Author: 小熊 627516430@qq.com
+ * @Date: 2023-09-21 22:47:45
+ * @LastEditors: 小熊 627516430@qq.com
+ * @LastEditTime: 2023-10-01 17:59:43
+ * @FilePath: /xoj-frontend/src/App.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <div id="app">
     <template v-if="route.path.startsWith('/user')">
@@ -14,7 +22,7 @@
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: #2c3e50;
 }
 </style>

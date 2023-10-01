@@ -8,6 +8,8 @@ import NoAuthView from "@/views/NoAuthView.vue";
 import ACCESS_ENUM from "@/access/accessEnum";
 import AddQuestionView from "@/views/question/AddQuestionView.vue";
 import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
+import QuestionsView from "@/views/question/QuestionsView.vue";
+import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   // {
@@ -32,6 +34,21 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
     meta: {
+      hideInMenu: true,
+    },
+  },
+  {
+    path: "/questions",
+    name: "浏览题目",
+    component: QuestionsView,
+  },
+  {
+    path: "/view/question/:id",
+    name: "在线做题",
+    component: ViewQuestionView,
+    props: true,
+    meta: {
+      access: ACCESS_ENUM.USER,
       hideInMenu: true,
     },
   },
@@ -63,7 +80,7 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "主页",
-    component: ManageQuestionView,
+    component: QuestionsView,
   },
   // {
   //   path: "/hide",

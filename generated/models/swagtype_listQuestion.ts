@@ -6,7 +6,7 @@
 import type { entity_Question } from './entity_Question';
 
 export type swagtype_listQuestion = {
-    data?: Array<entity_Question>;
+    records?: Array<entity_Question>;
     total?: number;
 };
 
