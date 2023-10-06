@@ -66,10 +66,15 @@ const searchParams = ref<questionsubmit_QuestionSubmitQueryRequest>({
 });
 
 const loadData = async () => {
+  if (searchParams.value.questionId) {
+    searchParams.value.questionId = Number(searchParams.value.questionId);
+  } else {
+    searchParams.value.questionId = undefined;
+  }
   const res = await Service.postQuestionQuestionSubmitListPage({
     ...searchParams.value,
     sortField: "createTime",
-    sortOrder: "descend",
+    sortOrder: "desc",
   });
   if (res.code === 0) {
     dataList.value = res.data?.records ?? [];
