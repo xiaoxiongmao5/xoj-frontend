@@ -9,14 +9,10 @@ import ACCESS_ENUM from "@/access/accessEnum";
 import AddQuestionView from "@/views/question/AddQuestionView.vue";
 import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
 import QuestionsView from "@/views/question/QuestionsView.vue";
+import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
 import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
 
 export const routes: Array<RouteRecordRaw> = [
-  // {
-  //   path: "/",
-  //   name: "浏览题目",
-  //   component: HomeView,
-  // },
   {
     path: "/user",
     name: "用户",
@@ -41,6 +37,11 @@ export const routes: Array<RouteRecordRaw> = [
     path: "/questions",
     name: "浏览题目",
     component: QuestionsView,
+  },
+  {
+    path: "/question_submit",
+    name: "浏览题目提交",
+    component: QuestionSubmitView,
   },
   {
     path: "/view/question/:id",

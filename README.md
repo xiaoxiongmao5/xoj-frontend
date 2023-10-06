@@ -23,7 +23,7 @@ yarn lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-### 生成调用后端接口代码
+### 根据后端的接口文档生成前端调用后端的接口代码
 ```
 openapi --input http://localhost:8091/swagger/swagger.json --output ./generated --client axios
 ```
