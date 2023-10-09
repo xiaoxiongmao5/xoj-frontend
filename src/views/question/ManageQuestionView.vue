@@ -73,10 +73,10 @@ const columns = [
     title: "标题",
     dataIndex: "title",
   },
-  {
-    title: "内容",
-    dataIndex: "content",
-  },
+  //   {
+  //     title: "内容",
+  //     dataIndex: "content",
+  //   },
   {
     title: "标签",
     dataIndex: "tags",

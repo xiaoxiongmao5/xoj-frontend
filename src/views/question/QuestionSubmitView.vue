@@ -33,9 +33,44 @@
       }"
       @page-change="onPageChange"
     >
-      <template #judgeInfo="{ record }">
-        {{ JSON.stringify(record.judgeInfo) }}
+      <template #result="{ record }">
+        <span :style="getJudgeResultStyle(record.judgeInfo.message)">
+          {{
+            record.judgeInfo.message !== undefined &&
+            record.judgeInfo.message !== null &&
+            judgeResultObjtList[record.judgeInfo.message] !== undefined &&
+            judgeResultObjtList[record.judgeInfo.message] !== null
+              ? judgeResultObjtList[record.judgeInfo.message].text
+              : "未知错误"
+          }}
+        </span>
       </template>
+      <template #memory="{ record }">
+        <span>{{ record.judgeInfo.memory }}</span>
+      </template>
+      <template #time="{ record }">
+        <span>{{ record.judgeInfo.time }}</span>
+      </template>
+      <!-- 判题状态 -->
+      <template #status="{ record }">
+        <span :style="getJudgeStatusStyle(record.status)">{{
+          judgeStatusObjtList[record.status].text
+        }}</span>
+      </template>
+      <!-- 题目 -->
+      <template #questionInfo="{ record }">
+        <div id="questionInfo" @click="toQuestionPage(record.questionVO)">
+          {{ record.questionVO.title }}
+          <span>[</span>
+          {{ record.questionId }}
+          <span>]</span>
+        </div>
+      </template>
+      <!-- 提交者 -->
+      <template #userName="{ record }">
+        <span>{{ record.userVO.userName }}</span>
+      </template>
+
       <template #createTime="{ record }">
         {{ moment(record.createTime).format("YYYY-MM-DD") }}
       </template>
@@ -64,6 +99,62 @@ const searchParams = ref<questionsubmit_QuestionSubmitQueryRequest>({
   pageSize: 10,
   current: 1,
 });
+
+const judgeStatusObjtList = [
+  { text: "等待中", color: "rgb(var(--gray-10))" },
+  { text: "判题中", color: "blue" },
+  { text: "成功", color: "green" },
+  { text: "失败", color: "red" },
+];
+const getJudgeStatusStyle = (judgeStatus: number) => {
+  if (
+    judgeStatus == undefined ||
+    judgeStatus == null ||
+    judgeStatusObjtList[judgeStatus] == undefined ||
+    judgeStatusObjtList[judgeStatus] == null
+  ) {
+    return ``;
+  }
+  const color = judgeStatusObjtList[judgeStatus].color;
+  return `color: ${color};font-weight: bold;`;
+};
+
+const judgeResultObjtList = {
+  Accepted: { text: "成功", color: "green" },
+  "Wrong Answer": { text: "答案错误", color: "red" },
+  "Compile Error": { text: "编译错误", color: "purple" },
+  "Memory Limit Exceeded": { text: "内存溢出", color: "blue" },
+  "Time Limit Exceeded": { text: "超时", color: "blue" },
+  "Presentation Error": { text: "展示错误", color: "blue" },
+  Waiting: { text: "等待中", color: "rgb(var(--gray-10))" },
+  "Output Limit Exceeded": { text: "输出溢出", color: "blue" },
+  "Dangerous Operation": { text: "危险操作", color: "red" },
+  "Runtime Error": { text: "运行错误", color: "red" },
+  "System Error": { text: "系统错误", color: "rgb(var(--gray-10))" },
+};
+
+const getJudgeResultStyle = (judgeResult: string) => {
+  if (
+    judgeResult == undefined ||
+    judgeResult == null ||
+    judgeResultObjtList[judgeResult] == undefined ||
+    judgeResultObjtList[judgeResult] == null
+  ) {
+    return `background: #333;
+    padding: 2px 0px;
+    width: 80px;
+    display: inline-block;
+    text-align: center;
+    color: #fff;`;
+  }
+  const color = judgeResultObjtList[judgeResult].color;
+  return `background: ${color};
+    padding: 2px 0px;
+    width: 80px;
+    display: inline-block;
+    text-align: center;;
+    color: #fff;`;
+};
 
 const loadData = async () => {
   if (searchParams.value.questionId) {
@@ -108,20 +199,28 @@ const columns = [
     dataIndex: "language",
   },
   {
-    title: "判题信息",
-    slotName: "judgeInfo",
+    title: "判题结果",
+    slotName: "result",
   },
   {
-    title: "判题状态",
-    dataIndex: "status",
+    title: "内存(KB)",
+    slotName: "memory",
   },
   {
-    title: "题目 id",
-    dataIndex: "questionId",
+    title: "耗时(MS)",
+    slotName: "time",
   },
   {
-    title: "提交者 id",
-    dataIndex: "userId",
+    title: "执行状态",
+    slotName: "status",
+  },
+  {
+    title: "题目名称[ 题号 ]",
+    slotName: "questionInfo",
+  },
+  {
+    title: "提交者",
+    slotName: "userName",
   },
   {
     title: "创建时间",
@@ -143,9 +242,11 @@ const router = useRouter();
  * @param question
  */
 const toQuestionPage = (question: vo_QuestionVO) => {
-  router.push({
-    path: `/view/question/${question.id}`,
-  });
+  // 在新窗口中打开链接
+  window.open(`/view/question/${question.id}`, "_blank");
+  // router.push({
+  //   path: `/view/question/${question.id}`,
+  // });
 };
 
 /**
@@ -164,5 +265,14 @@ const doSubmit = () => {
 #questionSubmitView {
   max-width: 1280px;
   margin: 0 auto;
+}
+
+#questionInfo {
+  cursor: pointer;
+}
+#questionInfo:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: red;
 }
 </style>
