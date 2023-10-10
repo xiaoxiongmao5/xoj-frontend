@@ -34,16 +34,19 @@
       @page-change="onPageChange"
     >
       <template #result="{ record }">
-        <span :style="getJudgeResultStyle(record.judgeInfo.message)">
+        <a-tag
+          size="large"
+          :color="getJudgeResultStyleColor(record.judgeInfo.message)"
+        >
           {{
             record.judgeInfo.message !== undefined &&
             record.judgeInfo.message !== null &&
             judgeResultObjtList[record.judgeInfo.message] !== undefined &&
             judgeResultObjtList[record.judgeInfo.message] !== null
               ? judgeResultObjtList[record.judgeInfo.message].text
-              : "未知错误"
+              : judgeResultObjtList["default"].text
           }}
-        </span>
+        </a-tag>
       </template>
       <template #memory="{ record }">
         <span>{{ record.judgeInfo.memory }}</span>
@@ -60,10 +63,8 @@
       <!-- 题目 -->
       <template #questionInfo="{ record }">
         <div id="questionInfo" @click="toQuestionPage(record.questionVO)">
+          <span>#{{ record.questionId }}</span>
           {{ record.questionVO.title }}
-          <span>[</span>
-          {{ record.questionId }}
-          <span>]</span>
         </div>
       </template>
       <!-- 提交者 -->
@@ -101,10 +102,10 @@ const searchParams = ref<questionsubmit_QuestionSubmitQueryRequest>({
 });
 
 const judgeStatusObjtList = [
-  { text: "等待中", color: "rgb(var(--gray-10))" },
-  { text: "判题中", color: "blue" },
-  { text: "成功", color: "green" },
-  { text: "失败", color: "red" },
+  { text: "等待中", color: "#168cff" },
+  { text: "判题中", color: "#ffb400" },
+  { text: "成功", color: "#00b42a" },
+  { text: "失败", color: "#f53f3f" },
 ];
 const getJudgeStatusStyle = (judgeStatus: number) => {
   if (
@@ -113,47 +114,37 @@ const getJudgeStatusStyle = (judgeStatus: number) => {
     judgeStatusObjtList[judgeStatus] == undefined ||
     judgeStatusObjtList[judgeStatus] == null
   ) {
-    return ``;
+    return `color: #86909c;font-weight: bold;`;
   }
   const color = judgeStatusObjtList[judgeStatus].color;
   return `color: ${color};font-weight: bold;`;
 };
 
 const judgeResultObjtList = {
-  Accepted: { text: "成功", color: "green" },
-  "Wrong Answer": { text: "答案错误", color: "red" },
-  "Compile Error": { text: "编译错误", color: "purple" },
-  "Memory Limit Exceeded": { text: "内存溢出", color: "blue" },
-  "Time Limit Exceeded": { text: "超时", color: "blue" },
-  "Presentation Error": { text: "展示错误", color: "blue" },
-  Waiting: { text: "等待中", color: "rgb(var(--gray-10))" },
-  "Output Limit Exceeded": { text: "输出溢出", color: "blue" },
-  "Dangerous Operation": { text: "危险操作", color: "red" },
-  "Runtime Error": { text: "运行错误", color: "red" },
-  "System Error": { text: "系统错误", color: "rgb(var(--gray-10))" },
+  Accepted: { text: `成功`, color: "#00b42a" },
+  "Wrong Answer": { text: "答案错误", color: "#f53f3f" },
+  "Runtime Error": { text: "运行错误", color: "#f53f3f" },
+  "Dangerous Operation": { text: "危险操作", color: "#f53f3f" },
+  "Compile Error": { text: "编译错误", color: "#ffb400" },
+  "Time Limit Exceeded": { text: "超时", color: "#0fc6c2" },
+  "Memory Limit Exceeded": { text: "内存溢出", color: "#ff7d00" },
+  "Output Limit Exceeded": { text: "输出溢出", color: "#ff7d00" },
+  "Presentation Error": { text: "展示错误", color: "#0fc6c2" },
+  Waiting: { text: "等待中", color: "#168cff" },
+  "System Error": { text: "系统错误", color: "#86909c" },
+  default: { text: "未知错误", color: "#86909c" },
 };
 
-const getJudgeResultStyle = (judgeResult: string) => {
+const getJudgeResultStyleColor = (judgeResult: string) => {
   if (
     judgeResult == undefined ||
     judgeResult == null ||
     judgeResultObjtList[judgeResult] == undefined ||
     judgeResultObjtList[judgeResult] == null
   ) {
-    return `background: #333;
-    padding: 2px 0px;
-    width: 80px;
-    display: inline-block;
-    text-align: center;
-    color: #fff;`;
+    return judgeResultObjtList["default"].color;
   }
-  const color = judgeResultObjtList[judgeResult].color;
-  return `background: ${color};
-    padding: 2px 0px;
-    width: 80px;
-    display: inline-block;
-    text-align: center;;
-    color: #fff;`;
+  return judgeResultObjtList[judgeResult].color;
 };
 
 const loadData = async () => {
@@ -215,7 +206,7 @@ const columns = [
     slotName: "status",
   },
   {
-    title: "题目名称[ 题号 ]",
+    title: "题目",
     slotName: "questionInfo",
   },
   {
@@ -223,7 +214,7 @@ const columns = [
     slotName: "userName",
   },
   {
-    title: "创建时间",
+    title: "提交时间",
     slotName: "createTime",
   },
 ];

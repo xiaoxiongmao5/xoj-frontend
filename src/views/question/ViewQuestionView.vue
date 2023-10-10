@@ -112,6 +112,11 @@ const doSubmit = async () => {
     return;
   }
 
+  if (form.value.code == "") {
+    message.error("请编写完代码，再提交！");
+    return;
+  }
+
   const res = await Service.postQuestionQuestionSubmitDo({
     ...form.value,
     questionId: question.value.id,

@@ -35,13 +35,16 @@ export const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/questions",
-    name: "浏览题目",
+    name: "题库", //浏览题目
     component: QuestionsView,
   },
   {
     path: "/question_submit",
-    name: "浏览题目提交",
+    name: "做题分析", //浏览题目提交
     component: QuestionSubmitView,
+    meta: {
+      access: ACCESS_ENUM.USER,
+    },
   },
   {
     path: "/view/question/:id",
@@ -58,7 +61,7 @@ export const routes: Array<RouteRecordRaw> = [
     name: "创建题目",
     component: AddQuestionView,
     meta: {
-      access: ACCESS_ENUM.USER,
+      access: ACCESS_ENUM.ADMIN,
     },
   },
   {
@@ -66,7 +69,7 @@ export const routes: Array<RouteRecordRaw> = [
     name: "更新题目",
     component: AddQuestionView,
     meta: {
-      access: ACCESS_ENUM.USER,
+      access: ACCESS_ENUM.ADMIN,
       hideInMenu: true,
     },
   },
@@ -82,6 +85,9 @@ export const routes: Array<RouteRecordRaw> = [
     path: "/",
     name: "主页",
     component: QuestionsView,
+    meta: {
+      hideInMenu: true,
+    },
   },
   // {
   //   path: "/hide",

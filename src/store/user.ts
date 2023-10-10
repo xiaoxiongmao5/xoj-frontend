@@ -2,7 +2,7 @@
  * @Author: 小熊 627516430@qq.com
  * @Date: 2023-09-22 16:15:19
  * @LastEditors: 小熊 627516430@qq.com
- * @LastEditTime: 2023-09-30 14:15:12
+ * @LastEditTime: 2023-10-10 10:15:53
  * @FilePath: /xoj/xoj-frontend/src/store/user.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -47,7 +47,7 @@ export default {
     async getLoginUser({ commit, state }, payload) {
       // 从远程请求获取登录信息
       const res = await Service.getUserGetLogin();
-      console.log("res=", res);
+      console.log("获取登录信息res=", res);
       if (res.code === 0) {
         commit("updateUser", res.data);
       } else {
