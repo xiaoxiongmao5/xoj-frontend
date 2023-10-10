@@ -44,6 +44,7 @@
             style="min-width: 240px"
           >
             <a-select
+              disabled
               v-model="form.language"
               :style="{ width: '320px' }"
               placeholder="选择编程语言"
@@ -55,15 +56,7 @@
             </a-select>
           </a-form-item>
         </a-form>
-        <CodeEditor
-          :value="form.code as string"
-          :language="form.language"
-          :handle-change="changeCode"
-        />
-        <a-divider size="0" />
-        <a-button type="primary" style="min-width: 200px" @click="doSubmit">
-          提交代码
-        </a-button>
+        <CodeViewer :value="form.code as string" :language="form.language" />
       </a-col>
     </a-row>
   </div>
@@ -72,9 +65,8 @@
 <script setup lang="ts">
 import { onMounted, ref, watchEffect, withDefaults, defineProps } from "vue";
 import message from "@arco-design/web-vue/es/message";
-import CodeEditor from "@/components/CodeEditor.vue";
+import CodeViewer from "@/components/CodeViewer.vue";
 import MdViewer from "@/components/MdViewer.vue";
-import { useRouter } from "vue-router";
 import {
   Service,
   vo_QuestionVO,
@@ -92,9 +84,12 @@ const props = withDefaults(defineProps<Props>(), {
 const question = ref<vo_QuestionVO>();
 
 const loadData = async () => {
-  const res = await Service.getQuestionGetVo(props.id as any);
+  const res = await Service.getQuestionQuestionSubmitGetVo(props.id as any);
   if (res.code === 0) {
-    question.value = res.data;
+    question.value = res.data?.questionVO;
+    form.value.code = res.data?.code;
+    form.value.language = res.data?.language;
+    console.log("form", form.value);
   } else {
     message.error("加载失败，" + res.message);
   }
@@ -106,49 +101,11 @@ const form = ref<questionsubmit_QuestionSubmitAddRequest>({
 });
 
 /**
- * 提交代码
- */
-const doSubmit = async () => {
-  if (!question.value?.id) {
-    return;
-  }
-
-  if (form.value.code == "") {
-    message.error("请编写完代码，再提交！");
-    return;
-  }
-
-  const res = await Service.postQuestionQuestionSubmitDo({
-    ...form.value,
-    questionId: question.value.id,
-  });
-  if (res.code === 0) {
-    message.success("提交成功");
-    toQuestionSubmitViewPage();
-  } else {
-    message.error("提交失败," + res.message);
-  }
-};
-const router = useRouter();
-/**
- * 跳转到做题分析页面
- */
-const toQuestionSubmitViewPage = () => {
-  router.push({
-    path: `/question_submit`,
-  });
-};
-
-/**
  * 页面加载时，请求数据
  */
 onMounted(() => {
   loadData();
 });
-
-const changeCode = (value: string) => {
-  form.value.code = value;
-};
 </script>
 
 <style>

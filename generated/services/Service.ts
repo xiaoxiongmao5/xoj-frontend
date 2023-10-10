@@ -16,6 +16,7 @@ import type { swagtype_ListUserResponse } from '../models/swagtype_ListUserRespo
 import type { swagtype_ListUserVOResponse } from '../models/swagtype_ListUserVOResponse';
 import type { swagtype_LoginUserVOResponse } from '../models/swagtype_LoginUserVOResponse';
 import type { swagtype_QuestionResponse } from '../models/swagtype_QuestionResponse';
+import type { swagtype_QuestionSubmitVOResponse } from '../models/swagtype_QuestionSubmitVOResponse';
 import type { swagtype_QuestionVOResponse } from '../models/swagtype_QuestionVOResponse';
 import type { swagtype_UserResponse } from '../models/swagtype_UserResponse';
 import type { swagtype_UserVOResponse } from '../models/swagtype_UserVOResponse';
@@ -186,6 +187,25 @@ export class Service {
             method: 'POST',
             url: '/question/question_submit/do',
             body: request,
+        });
+    }
+
+    /**
+     * 获取提交题目的封装
+     * 获取提交题目的封装（仅本人能看见自己提交的代码）
+     * @param id id
+     * @returns swagtype_QuestionSubmitVOResponse 响应数据
+     * @throws ApiError
+     */
+    public static getQuestionQuestionSubmitGetVo(
+        id: number,
+    ): CancelablePromise<swagtype_QuestionSubmitVOResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/question/question_submit/get/vo',
+            query: {
+                'id': id,
+            },
         });
     }
 

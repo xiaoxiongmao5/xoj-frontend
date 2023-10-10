@@ -34,25 +34,49 @@
       @page-change="onPageChange"
     >
       <template #result="{ record }">
-        <a-tag
-          size="large"
-          :color="getJudgeResultStyleColor(record.judgeInfo.message)"
-        >
-          {{
+        <!-- 执行状态：等待中、判题中 -->
+        <template v-if="record.status == 0 || record.status == 1">
+          <a-tag loading>Loading</a-tag>
+        </template>
+        <template
+          v-else-if="
             record.judgeInfo.message !== undefined &&
             record.judgeInfo.message !== null &&
             judgeResultObjtList[record.judgeInfo.message] !== undefined &&
             judgeResultObjtList[record.judgeInfo.message] !== null
-              ? judgeResultObjtList[record.judgeInfo.message].text
-              : judgeResultObjtList["default"].text
-          }}
-        </a-tag>
+          "
+        >
+          <a-tag
+            size="large"
+            :color="getJudgeResultStyleColor(record.judgeInfo.message)"
+          >
+            {{ judgeResultObjtList[record.judgeInfo.message].text }}
+          </a-tag>
+        </template>
+        <template v-else>
+          <span></span>
+        </template>
       </template>
       <template #memory="{ record }">
-        <span>{{ record.judgeInfo.memory }}</span>
+        <template v-if="record.judgeInfo.memory <= 1024">
+          <span>{{ record.judgeInfo.memory }} byte</span>
+        </template>
+        <template v-else-if="record.judgeInfo.memory <= 1024 * 1024">
+          <span>{{ (record.judgeInfo.memory / 1024).toFixed(2) }} KB</span>
+        </template>
+        <template v-else>
+          <span
+            >{{ (record.judgeInfo.memory / (1024 * 1024)).toFixed(2) }} MB</span
+          >
+        </template>
       </template>
       <template #time="{ record }">
-        <span>{{ record.judgeInfo.time }}</span>
+        <template v-if="record.judgeInfo.time < 1000">
+          <span>{{ record.judgeInfo.time }} MS</span>
+        </template>
+        <template v-else>
+          <span>{{ (record.judgeInfo.time / 1000).toFixed(0) }} S</span>
+        </template>
       </template>
       <!-- 判题状态 -->
       <template #status="{ record }">
@@ -75,14 +99,26 @@
       <template #createTime="{ record }">
         {{ moment(record.createTime).format("YYYY-MM-DD") }}
       </template>
+
+      <template #optional="{ record }">
+        <a-space>
+          <a-button
+            type="secondary"
+            @click="toViewQuestionSubmitViewPage(record)"
+          >
+            查看代码
+          </a-button>
+        </a-space>
+      </template>
     </a-table>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watchEffect } from "vue";
+import { onMounted, onBeforeUnmount, ref, watchEffect } from "vue";
 import {
   vo_QuestionVO,
+  vo_QuestionSubmitVO,
   Service,
   questionsubmit_QuestionSubmitQueryRequest,
 } from "../../../generated";
@@ -166,11 +202,30 @@ const loadData = async () => {
   }
 };
 
+const refreshFlag = ref(false); // 哨兵变量
+
+// 设置定时器，每隔一段时间执行一次 loadData 函数
+const intervalId = setInterval(() => {
+  if (refreshFlag.value) {
+    console.log("定时任务");
+    loadData();
+    refreshFlag.value = false; // 重置哨兵变量
+  }
+}, 3000); // 每隔 3000 毫秒（3 秒）执行一次
+
 /**
  * 监听 searchParams 变量，改变时触发页面的重新加载
  */
 watchEffect(() => {
+  if (!refreshFlag.value) {
+    refreshFlag.value = true; // 设置哨兵变量，触发定时任务
+  }
   loadData();
+});
+
+// 在组件销毁时清除定时器
+onBeforeUnmount(() => {
+  clearInterval(intervalId);
 });
 
 /**
@@ -194,11 +249,11 @@ const columns = [
     slotName: "result",
   },
   {
-    title: "内存(KB)",
+    title: "内存",
     slotName: "memory",
   },
   {
-    title: "耗时(MS)",
+    title: "耗时",
     slotName: "time",
   },
   {
@@ -217,6 +272,9 @@ const columns = [
     title: "提交时间",
     slotName: "createTime",
   },
+  {
+    slotName: "optional",
+  },
 ];
 
 const onPageChange = (page: number) => {
@@ -227,6 +285,17 @@ const onPageChange = (page: number) => {
 };
 
 const router = useRouter();
+
+/**
+ * 跳转到已提交题目详情界面
+ */
+const toViewQuestionSubmitViewPage = (questionSumit: vo_QuestionSubmitVO) => {
+  // 在新窗口中打开链接
+  window.open(`/view/question_submit/${questionSumit.id}`, "_blank");
+  // router.push({
+  //   path: `/view/question_submit/${questionSumit.id}`,
+  // });
+};
 
 /**
  * 跳转到做题页面

@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { questionsubmit_JudgeInfo } from './questionsubmit_JudgeInfo';
+import type { judgeservermodel_JudgeInfo } from './judgeservermodel_JudgeInfo';
 import type { vo_QuestionVO } from './vo_QuestionVO';
 import type { vo_UserVO } from './vo_UserVO';
 
@@ -20,7 +20,7 @@ export type vo_QuestionSubmitVO = {
      * id
      */
     id?: number;
-    judgeInfo?: questionsubmit_JudgeInfo;
+    judgeInfo?: judgeservermodel_JudgeInfo;
     /**
      * 编程语言
      */

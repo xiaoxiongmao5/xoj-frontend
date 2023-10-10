@@ -11,6 +11,7 @@ import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
 import QuestionsView from "@/views/question/QuestionsView.vue";
 import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
 import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
+import ViewQuestionSubmitView from "@/views/question/ViewQuestionSubmitView.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -44,6 +45,16 @@ export const routes: Array<RouteRecordRaw> = [
     component: QuestionSubmitView,
     meta: {
       access: ACCESS_ENUM.USER,
+    },
+  },
+  {
+    path: "/view/question_submit/:id",
+    name: "查看已提交题目详情",
+    component: ViewQuestionSubmitView,
+    props: true,
+    meta: {
+      access: ACCESS_ENUM.USER,
+      hideInMenu: true,
     },
   },
   {
