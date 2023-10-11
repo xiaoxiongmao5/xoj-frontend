@@ -15,6 +15,14 @@ router.beforeEach(async (to, from, next) => {
   const needAccess = (to.meta?.access as string) ?? ACCESS_ENUM.NOT_LOGIN;
   // 要跳转的页面必须要登陆
   if (needAccess !== ACCESS_ENUM.NOT_LOGIN) {
+    console.log("这里loginUser", !loginUser);
+    console.log("这里loginUser.userRole ", !loginUser.userRole);
+    console.log(
+      "这里loginUser.userRole === ACCESS_ENUM.NOT_LOGIN",
+      loginUser.userRole === ACCESS_ENUM.NOT_LOGIN
+    );
+    console.log("应该要调到登录页面了");
+
     // 如果没登陆，跳转到登录页面
     if (
       !loginUser ||

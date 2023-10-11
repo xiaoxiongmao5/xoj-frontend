@@ -35,6 +35,7 @@
           </a-tag>
         </a-space>
       </template>
+      <!-- 通过率 -->
       <template #acceptedRate="{ record }">
         {{
           `${

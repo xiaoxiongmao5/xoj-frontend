@@ -41,11 +41,11 @@ body {
   vertical-align: top;
 }
 #userLayout .header {
-  margin-top: 16px;
+  margin-top: 64px;
 }
 #userLayout .content {
   margin-bottom: 16px;
-  padding: 20px;
+  padding: 30px;
 }
 #userLayout .footer {
   padding: 16px;

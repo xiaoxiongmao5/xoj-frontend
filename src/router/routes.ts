@@ -41,7 +41,7 @@ export const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/question_submit",
-    name: "做题分析", //浏览题目提交
+    name: "浏览题目提交", //做题分析
     component: QuestionSubmitView,
     meta: {
       access: ACCESS_ENUM.USER,

@@ -1,6 +1,6 @@
 <template>
   <div class="userRegisterView">
-    <h2 style="margin-bottom: 16px">账户密码注册</h2>
+    <h2 style="margin-bottom: 32px">账户密码注册</h2>
     <a-form
       :model="form"
       size="large"

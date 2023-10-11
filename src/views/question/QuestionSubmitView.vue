@@ -93,22 +93,32 @@
       </template>
       <!-- 提交者 -->
       <template #userName="{ record }">
-        <span>{{ record.userVO.userName }}</span>
+        <span>{{
+          record.userVO.userName ? record.userVO.userName : record.userId
+        }}</span>
       </template>
-
+      <!-- 提交时间 -->
       <template #createTime="{ record }">
         {{ moment(record.createTime).format("YYYY-MM-DD") }}
       </template>
 
       <template #optional="{ record }">
-        <a-space>
+        <template
+          v-if="
+            store.state.user.loginUser.id == record.userId ||
+            store.state.user.loginUser.userRole == ACCESS_ENUM.ADMIN
+          "
+        >
+          <!-- <a-space> -->
           <a-button
             type="secondary"
             @click="toViewQuestionSubmitViewPage(record)"
           >
             查看代码
           </a-button>
-        </a-space>
+          <!-- </a-space> -->
+        </template>
+        <template v-else> </template>
       </template>
     </a-table>
   </div>
@@ -125,8 +135,11 @@ import {
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 import moment from "moment";
+import { useStore } from "vuex";
+import ACCESS_ENUM from "@/access/accessEnum";
 
 const tableRef = ref();
+const store = useStore();
 
 const dataList = ref([]);
 const total = ref(0);

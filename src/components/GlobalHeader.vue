@@ -24,7 +24,27 @@
     </a-col>
     <a-col flex="100px">
       <div>
-        {{ store.state.user?.loginUser?.userName ?? "未登录" }}
+        <template
+          v-if="
+            store.state.user &&
+            store.state.user.loginUser &&
+            store.state.user.loginUser.userName &&
+            store.state.user.loginUser.userName !== '未登录'
+          "
+        >
+          <!-- {{ store.state.user?.loginUser?.userName ?? "未登录" }} -->
+          <a-dropdown @select="handleSelect">
+            <a-button type="text">{{
+              store.state.user.loginUser.userName
+            }}</a-button>
+            <template #content>
+              <a-doption :value="{ value: 'logout' }">退出登录</a-doption>
+            </template>
+          </a-dropdown>
+        </template>
+        <template v-else>
+          <a-button type="text" @click="toLoginPage">未登录</a-button>
+        </template>
       </div>
     </a-col>
   </a-row>
@@ -37,12 +57,33 @@ import { computed, ref, useSlots } from "vue";
 import { useStore } from "vuex";
 import checkAccess from "@/access/checkAccess";
 import ACCESS_ENUM from "@/access/accessEnum";
+import { Service } from "../../generated";
+import message from "@arco-design/web-vue/es/message";
 
 const router = useRouter();
 const store = useStore();
 
 // 获取路由信息
 // const route = useRoute();
+
+const handleSelect = (v) => {
+  console.log(v);
+  // 退出登录
+  if (v.value === "logout") {
+    Service.postUserLogout();
+    toLoginPage();
+  }
+};
+
+/**
+ * 跳转到登录界面
+ * @param question
+ */
+const toLoginPage = () => {
+  router.push({
+    path: `/user/login`,
+  });
+};
 
 // 展示在菜单的路由数组
 const visibleRoutes = computed(() => {
