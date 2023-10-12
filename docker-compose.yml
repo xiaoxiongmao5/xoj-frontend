@@ -1,0 +1,11 @@
+version: '3'
+services:
+  single-frontend:
+    image: xiaoxiongmao5/xoj-frontend:1.0.0
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    ports:
+      - "8088:8088"  # 映射容器的80端口到主机的80端口
+    restart: always  # 总是重新启动容器
+    tty: true

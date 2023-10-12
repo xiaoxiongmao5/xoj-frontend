@@ -224,7 +224,7 @@ const intervalId = setInterval(() => {
     loadData();
     refreshFlag.value = false; // 重置哨兵变量
   }
-}, 3000); // 每隔 3000 毫秒（3 秒）执行一次
+}, 3000); // 每隔（3 秒）执行一次
 
 /**
  * 监听 searchParams 变量，改变时触发页面的重新加载
