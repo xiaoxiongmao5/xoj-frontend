@@ -12,6 +12,14 @@ export type vo_QuestionVO = {
      */
     acceptedNum?: number;
     /**
+     * 题目答案
+     */
+    answer?: string;
+    /**
+     * 题目答案模版
+     */
+    answerTemplate?: string;
+    /**
      * 内容
      */
     content?: string;

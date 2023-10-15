@@ -25,7 +25,7 @@ interface Props {
  */
 const props = withDefaults(defineProps<Props>(), {
   value: () => "",
-  language: () => "java",
+  language: () => "go",
   handleChange: (v: string) => {
     console.log(v);
   },
@@ -42,14 +42,37 @@ const codeEditor = ref();
 //   toRaw(codeEditor.value).setValue("新的值");
 // };
 
+const fillCodeValue = (code: string) => {
+  if (!codeEditor.value) {
+    return;
+  }
+  // 改变值
+  toRaw(codeEditor.value).setValue(code);
+};
+
 watch(
   () => props.language,
   () => {
-    if (codeEditor.value) {
+    if (codeEditor.value && !isfirst) {
+      setTimeout(() => {
+        toRaw(codeEditor.value).setValue(props.value);
+      }, 10);
       monaco.editor.setModelLanguage(
         toRaw(codeEditor.value).getModel(),
         props.language
       );
+    }
+  }
+);
+
+var isfirst = true;
+
+watch(
+  () => props.value,
+  () => {
+    if (codeEditor.value && isfirst) {
+      toRaw(codeEditor.value).setValue(props.value);
+      isfirst = false;
     }
   }
 );

@@ -6,6 +6,7 @@
 export type entity_Question = {
     acceptedNum?: number;
     answer?: string;
+    answerTemplate?: string;
     content?: string;
     createTime?: string;
     favourNum?: number;

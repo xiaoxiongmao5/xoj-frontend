@@ -10,10 +10,8 @@
           :style="{ width: '320px' }"
           placeholder="选择编程语言"
         >
-          <a-option>java</a-option>
-          <a-option>cpp</a-option>
           <a-option>go</a-option>
-          <a-option>html</a-option>
+          <a-option>java</a-option>
         </a-select>
       </a-form-item>
       <a-form-item>
@@ -303,11 +301,11 @@ const router = useRouter();
  * 跳转到已提交题目详情界面
  */
 const toViewQuestionSubmitViewPage = (questionSumit: vo_QuestionSubmitVO) => {
-  // 在新窗口中打开链接
-  window.open(`/view/question_submit/${questionSumit.id}`, "_blank");
-  // router.push({
-  //   path: `/view/question_submit/${questionSumit.id}`,
-  // });
+  // // 在新窗口中打开链接
+  // window.open(`/view/question_submit/${questionSumit.id}`, "_blank");
+  router.push({
+    path: `/view/question_submit/${questionSumit.id}`,
+  });
 };
 
 /**
@@ -315,11 +313,11 @@ const toViewQuestionSubmitViewPage = (questionSumit: vo_QuestionSubmitVO) => {
  * @param question
  */
 const toQuestionPage = (question: vo_QuestionVO) => {
-  // 在新窗口中打开链接
-  window.open(`/view/question/${question.id}`, "_blank");
-  // router.push({
-  //   path: `/view/question/${question.id}`,
-  // });
+  // // 在新窗口中打开链接
+  // window.open(`/view/question/${question.id}`, "_blank");
+  router.push({
+    path: `/view/question/${question.id}`,
+  });
 };
 
 /**

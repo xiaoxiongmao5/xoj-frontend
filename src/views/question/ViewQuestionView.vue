@@ -2,7 +2,7 @@
   <div id="viewQuestionView">
     <a-row :gutter="[24, 24]">
       <a-col :md="12" :xs="24">
-        <a-tabs default-active-key="question">
+        <a-tabs default-active-key="question" type="line">
           <a-tab-pane key="question" title="题目">
             <a-card v-if="question" :title="question.title">
               <a-descriptions
@@ -32,8 +32,18 @@
               </template>
             </a-card>
           </a-tab-pane>
-          <a-tab-pane key="comment" title="评论" disabled> 评论区</a-tab-pane>
-          <a-tab-pane key="answer" title="答案"> 暂时无法查看答案</a-tab-pane>
+          <!-- <a-tab-pane key="comment" title="评论" disabled> 评论区</a-tab-pane> -->
+          <a-tab-pane key="answer" title="答案">
+            <!-- position="left"  -->
+            <a-tabs default-active-key="go" type="rounded" size="small">
+              <a-tab-pane key="go" title="go">
+                <MdViewer :value="question?.answer ?? '此题暂未提供答案'" />
+              </a-tab-pane>
+              <a-tab-pane key="java" title="java">
+                <MdViewer :value="'此题暂未提供答案'" />
+              </a-tab-pane>
+            </a-tabs>
+          </a-tab-pane>
         </a-tabs>
       </a-col>
       <a-col :md="12" :xs="24">
@@ -47,11 +57,10 @@
               v-model="form.language"
               :style="{ width: '320px' }"
               placeholder="选择编程语言"
+              :change="GetAnswerTemplate(string)"
             >
-              <a-option>java</a-option>
-              <a-option>cpp</a-option>
               <a-option>go</a-option>
-              <a-option>html</a-option>
+              <a-option>java</a-option>
             </a-select>
           </a-form-item>
         </a-form>
@@ -91,19 +100,37 @@ const props = withDefaults(defineProps<Props>(), {
 
 const question = ref<vo_QuestionVO>();
 
+const form = ref<questionsubmit_QuestionSubmitAddRequest>({
+  language: "go",
+  code: "",
+});
+
 const loadData = async () => {
   const res = await Service.getQuestionGetVo(props.id as any);
   if (res.code === 0) {
     question.value = res.data;
+    GetAnswerTemplate();
   } else {
     message.error("加载失败，" + res.message);
   }
 };
 
-const form = ref<questionsubmit_QuestionSubmitAddRequest>({
-  language: "go",
-  code: "",
-});
+// 根据选择的编程语言，设置代码的模版内容
+const GetAnswerTemplate = () => {
+  if (question.value?.answerTemplate == "") {
+    return;
+  }
+  const answerTemplate = JSON.parse(question.value?.answerTemplate ?? "{}");
+  console.log("answerTemplate", answerTemplate);
+  if (
+    form.value.language &&
+    answerTemplate[form.value.language] &&
+    answerTemplate[form.value.language] != null
+  ) {
+    form.value.code = answerTemplate[form.value.language];
+  }
+  // console.log("更换语言的答案模版", form.value.code);
+};
 
 /**
  * 提交代码

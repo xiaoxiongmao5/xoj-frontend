@@ -50,25 +50,34 @@ watch(
   }
 );
 
+watch(
+  () => props.value,
+  () => {
+    if (codeEditor.value) {
+      toRaw(codeEditor.value).setValue(props.value);
+    }
+  }
+);
+
 onMounted(() => {
-  setTimeout(() => {
-    // Hover on each property to see its docs!
-    codeEditor.value = monaco.editor.create(codeEditorRef.value, {
-      value: props.value,
-      language: props.language,
-      automaticLayout: true,
-      colorDecorators: true,
-      minimap: {
-        enabled: true,
-      },
-      readOnly: true,
-      theme: "vs-dark",
-      // lineNumbers: "off",
-      // roundedSelection: false,
-      // scrollBeyondLastLine: false,
-    });
-    console.log(props.value);
-  }, 100);
+  if (!codeEditorRef.value) {
+    return;
+  }
+  // Hover on each property to see its docs!
+  codeEditor.value = monaco.editor.create(codeEditorRef.value, {
+    value: props.value,
+    language: props.language,
+    automaticLayout: true,
+    colorDecorators: true,
+    minimap: {
+      enabled: true,
+    },
+    readOnly: true,
+    theme: "vs-dark",
+    // lineNumbers: "off",
+    // roundedSelection: false,
+    // scrollBeyondLastLine: false,
+  });
 });
 </script>
 

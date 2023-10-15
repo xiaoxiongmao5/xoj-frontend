@@ -14,6 +14,12 @@
       <a-form-item field="answer" label="答案">
         <MdEditor :value="form.answer" :handle-change="onAnswerChange" />
       </a-form-item>
+      <a-form-item field="answerTemplate" label="答案模版">
+        <a-textarea
+          v-model="form.answerTemplate"
+          :auto-size="{ minRows: 4, maxRows: 6 }"
+        />
+      </a-form-item>
       <a-form-item label="判题配置" :content-flex="false" :merge-props="false">
         <a-space direction="vertical" style="min-width: 480px">
           <a-form-item field="judgeConfig.timeLimit" label="时间限制(MS)">
@@ -112,6 +118,7 @@ let form = ref({
   title: "",
   tags: [],
   answer: "",
+  answerTemplate: "",
   content: "",
   judgeConfig: {
     memoryLimit: 1000,
