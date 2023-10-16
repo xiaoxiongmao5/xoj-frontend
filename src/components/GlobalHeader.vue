@@ -138,5 +138,7 @@ console.log("store.state.user", store.state.user);
 .title {
   color: #444;
   margin-left: 16px;
+  font-size: 20px;
+  font-weight: 700;
 }
 </style>
