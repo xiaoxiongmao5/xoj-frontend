@@ -12,6 +12,10 @@ export type question_QuestionAddRequest = {
      */
     answer?: string;
     /**
+     * 题目答案模版
+     */
+    answerTemplate?: string;
+    /**
      * 内容
      */
     content?: string;

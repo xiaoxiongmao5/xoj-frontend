@@ -51,28 +51,12 @@
               position="left"
             >
               <a-tab-pane key="go" title="go">
-                <div
-                  style="
-                    height: 58.5vh;
-                    min-height: 380px;
-                    background: #eee;
-                    overflow: auto;
-                    padding: 0 10px;
-                  "
-                >
+                <div style="height: 58.5vh; min-height: 380px; overflow: auto">
                   <MdViewer :value="question?.answer ?? '此题暂未提供答案'" />
                 </div>
               </a-tab-pane>
               <a-tab-pane key="java" title="java">
-                <div
-                  style="
-                    height: 58.5vh;
-                    min-height: 380px;
-                    background: #eee;
-                    overflow: auto;
-                    padding: 0 10px;
-                  "
-                >
+                <div style="height: 58.5vh; min-height: 380px; overflow: auto">
                   <MdViewer :value="'此题暂未提供答案'" />
                 </div>
               </a-tab-pane>

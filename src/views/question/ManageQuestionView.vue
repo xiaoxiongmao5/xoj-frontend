@@ -14,12 +14,29 @@
       }"
       @page-change="onPageChange"
     >
+      <template #createTime="{ record }">
+        {{ moment(record.createTime).format("YYYY-MM-DD HH:mm:ss") }}
+      </template>
+      <template #updateTime="{ record }">
+        {{ moment(record.updateTime).format("YYYY-MM-DD HH:mm:ss") }}
+      </template>
       <template #optional="{ record }">
         <a-space>
           <a-button type="primary" @click="doUpdate(record)"> 修改</a-button>
-          <a-button type="primary" status="danger" @click="doDelete(record)"
-            >删除</a-button
+          <a-popconfirm
+            content="确定要删除此题目吗?"
+            type="error"
+            okText="是"
+            cancelText="否"
+            @cancel="
+              () => {
+                console.log(`已取消`);
+              }
+            "
+            @ok="doDelete(record)"
           >
+            <a-button type="primary" status="danger">删除</a-button>
+          </a-popconfirm>
         </a-space>
       </template>
     </a-table>
@@ -32,6 +49,7 @@ import { question_QuestionUpdateRequest, Service } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import * as querystring from "querystring";
 import { useRouter } from "vue-router";
+import moment from "moment";
 
 const tableRef = ref();
 
@@ -133,8 +151,13 @@ const columns = [
   },
   {
     title: "创建时间",
-    dataIndex: "createTime",
-    width: 100,
+    slotName: "createTime",
+    width: 75,
+  },
+  {
+    title: "更新时间",
+    slotName: "updateTime",
+    width: 75,
   },
   {
     title: "操作",

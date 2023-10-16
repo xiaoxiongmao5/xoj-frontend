@@ -6,7 +6,7 @@
 import type { vo_UserVO } from './vo_UserVO';
 
 export type swagtype_listUserVO = {
-    data?: Array<vo_UserVO>;
+    records?: Array<vo_UserVO>;
     total?: number;
 };
 

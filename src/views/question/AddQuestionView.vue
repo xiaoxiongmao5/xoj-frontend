@@ -1,6 +1,11 @@
 <template>
   <div id="addQuestionView">
-    <h2>创建题目</h2>
+    <template v-if="route.path.startsWith('/update/question')">
+      <h2>修改题目</h2>
+    </template>
+    <template v-else>
+      <h2>创建题目</h2>
+    </template>
     <a-form :model="form" label-align="left">
       <a-form-item field="title" label="标题">
         <a-input v-model="form.title" size="medium" placeholder="请输入标题" />
@@ -226,5 +231,8 @@ const onAnswerChange = (value: string) => {
 
 <style scoped>
 #addQuestionView {
+}
+:deep(.bytemd-fullscreen.bytemd) {
+  z-index: 100;
 }
 </style>

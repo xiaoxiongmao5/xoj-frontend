@@ -6,7 +6,7 @@
 import type { entity_User } from './entity_User';
 
 export type swagtype_listUser = {
-    data?: Array<entity_User>;
+    records?: Array<entity_User>;
     total?: number;
 };
 

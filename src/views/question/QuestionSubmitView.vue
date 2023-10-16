@@ -264,41 +264,51 @@ const columns = [
   {
     title: "提交号",
     dataIndex: "id",
+    align: "left",
   },
   {
     title: "编程语言",
     dataIndex: "language",
+    align: "left",
   },
   {
     title: "判题结果",
     slotName: "result",
+    align: "left",
   },
   {
     title: "内存",
     slotName: "memory",
+    align: "left",
   },
   {
     title: "耗时",
     slotName: "time",
+    align: "left",
   },
   {
     title: "执行状态",
     slotName: "status",
+    align: "center",
   },
   {
     title: "题目",
     slotName: "questionInfo",
+    align: "left",
   },
   {
     title: "提交者",
     slotName: "userName",
+    align: "left",
   },
   {
     title: "提交时间",
     slotName: "createTime",
+    align: "left",
   },
   {
     slotName: "optional",
+    align: "left",
   },
 ];
 
