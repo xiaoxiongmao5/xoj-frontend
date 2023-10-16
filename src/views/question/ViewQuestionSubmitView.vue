@@ -25,7 +25,8 @@
                   <a-tag
                     v-for="(tag, index) of question.tags"
                     :key="index"
-                    color="green"
+                    size="large"
+                    :color="getTagStyleColor(tag)"
                     >{{ tag }}
                   </a-tag>
                 </a-space>
@@ -75,8 +76,11 @@
         </a-button>
         <a-divider size="0" />
         <!-- <div>{{ judgeInfo?.message ?? "" }} -->
+        <!-- :model-value="judgeInfo?.detail ?? judgeInfo?.message ?? ''" -->
         <a-textarea
-          :model-value="judgeInfo?.detail"
+          :model-value="
+            judgeInfo?.detail ? judgeInfo?.detail : judgeInfo?.message
+          "
           :auto-size="{ minRows: 2, maxRows: 5 }"
         />
         <!-- </div> -->
@@ -106,6 +110,20 @@ import {
   judgeservermodel_JudgeInfo,
   questionsubmit_QuestionSubmitAddRequest,
 } from "../../../generated";
+
+const tagsObjtList = {
+  default: { text: "default", color: "#168cff" },
+  简单: { text: "简单", color: "#0fc6c2" },
+  中等: { text: "中等", color: "#ffb400" },
+  困难: { text: "困难", color: "#f53f3f" },
+};
+
+const getTagStyleColor = (tag: string) => {
+  if (tag == "" || tag == undefined || tagsObjtList[tag] == undefined) {
+    return tagsObjtList["default"].color;
+  }
+  return tagsObjtList[tag].color;
+};
 
 interface Props {
   id: string;
@@ -145,6 +163,11 @@ const changeCode = (value: string) => {
  */
 const doSubmit = async () => {
   if (!question.value?.id) {
+    return;
+  }
+
+  if (form.value.language != "go") {
+    message.error("提交失败,暂不支持该编程语言！");
     return;
   }
 

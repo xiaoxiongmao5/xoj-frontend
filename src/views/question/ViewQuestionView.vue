@@ -25,7 +25,8 @@
                   <a-tag
                     v-for="(tag, index) of question.tags"
                     :key="index"
-                    color="green"
+                    size="large"
+                    :color="getTagStyleColor(tag)"
                     >{{ tag }}
                   </a-tag>
                 </a-space>
@@ -90,6 +91,20 @@ import {
   questionsubmit_QuestionSubmitAddRequest,
 } from "../../../generated";
 
+const tagsObjtList = {
+  default: { text: "default", color: "#168cff" },
+  简单: { text: "简单", color: "#0fc6c2" },
+  中等: { text: "中等", color: "#ffb400" },
+  困难: { text: "困难", color: "#f53f3f" },
+};
+
+const getTagStyleColor = (tag: string) => {
+  if (tag == "" || tag == undefined || tagsObjtList[tag] == undefined) {
+    return tagsObjtList["default"].color;
+  }
+  return tagsObjtList[tag].color;
+};
+
 interface Props {
   id: string;
 }
@@ -137,6 +152,11 @@ const GetAnswerTemplate = () => {
  */
 const doSubmit = async () => {
   if (!question.value?.id) {
+    return;
+  }
+
+  if (form.value.language != "go") {
+    message.error("提交失败,暂不支持该编程语言！");
     return;
   }
 

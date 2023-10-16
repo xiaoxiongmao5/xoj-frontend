@@ -34,12 +34,13 @@
       <template #result="{ record }">
         <!-- 执行状态：等待中、判题中 -->
         <template v-if="record.status == 0 || record.status == 1">
-          <a-tag loading>Loading</a-tag>
+          <a-tag size="large" loading>Loading</a-tag>
         </template>
         <template
           v-else-if="
             record.judgeInfo.message !== undefined &&
             record.judgeInfo.message !== null &&
+            record.judgeInfo.message !== '' &&
             judgeResultObjtList[record.judgeInfo.message] !== undefined &&
             judgeResultObjtList[record.judgeInfo.message] !== null
           "
@@ -51,8 +52,19 @@
             {{ judgeResultObjtList[record.judgeInfo.message].text }}
           </a-tag>
         </template>
+        <template
+          v-else-if="
+            record.judgeInfo.message !== undefined &&
+            record.judgeInfo.message !== null &&
+            record.judgeInfo.message !== ''
+          "
+        >
+          <a-tag size="large" :color="getJudgeResultStyleColor('default')">
+            {{ record.judgeInfo.message }}
+          </a-tag>
+        </template>
         <template v-else>
-          <span></span>
+          <span>{{ record.judgeInfo.message }}</span>
         </template>
       </template>
       <template #memory="{ record }">
@@ -179,6 +191,7 @@ const judgeResultObjtList = {
   "Presentation Error": { text: "展示错误", color: "#0fc6c2" },
   Waiting: { text: "等待中", color: "#168cff" },
   "System Error": { text: "系统错误", color: "#86909c" },
+  "LANGUAGE UNSUPPORTED": { text: "语言不支持", color: "#0fc6c2" },
   default: { text: "未知错误", color: "#86909c" },
 };
 
@@ -186,6 +199,7 @@ const getJudgeResultStyleColor = (judgeResult: string) => {
   if (
     judgeResult == undefined ||
     judgeResult == null ||
+    judgeResult == "" ||
     judgeResultObjtList[judgeResult] == undefined ||
     judgeResultObjtList[judgeResult] == null
   ) {
