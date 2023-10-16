@@ -14,11 +14,8 @@
         <a-input v-model="searchParams.email" placeholder="请输入搜索邮箱" />
       </a-form-item> -->
       <a-form-item>
-        <a-button type="primary" @click="doSubmit">搜 索 </a-button>
+        <a-button type="primary" @click="doSubmit">搜索</a-button>
       </a-form-item>
-      <!-- <a-form-item>
-        <a-button type="primary" @click="loadData">刷 新 </a-button>
-      </a-form-item> -->
     </a-form>
     <a-divider size="0" />
     <a-table
@@ -49,6 +46,9 @@
         </a-tag>
         <a-tag size="large" v-if="record.userRole === 'admin'" color="#ffb400"
           >管理员</a-tag
+        >
+        <a-tag size="large" v-if="record.userRole === 'ban'" color="#f53f3f"
+          >已封禁</a-tag
         >
       </template>
       <template #gender="{ record }">
@@ -116,11 +116,15 @@
         title="个人信息"
         style="max-width: 480px; margin: 0 auto"
       >
-        <a-form-item field="名称" label="名称 :">
-          <a-input v-model="userInfo.userName" placeholder="请输入用户名称" />
-        </a-form-item>
         <a-form-item field="账号" label="账号 :">
-          <a-input v-model="userInfo.userAccount" placeholder="请输入账号" />
+          <a-input
+            disabled
+            v-model="userInfo.userAccount"
+            placeholder="请输入账号"
+          />
+        </a-form-item>
+        <a-form-item field="昵称" label="昵称 :">
+          <a-input v-model="userInfo.userName" placeholder="请输入用户昵称" />
         </a-form-item>
         <!-- <a-form-item field="邮箱" label="邮箱 :">
           <a-input v-model="userInfo.email" placeholder="请输入邮箱" />
@@ -139,10 +143,20 @@
           <a-select v-model="userInfo.userRole" placeholder="请输入用户角色">
             <a-option value="admin">管理员</a-option>
             <a-option value="user">普通用户</a-option>
+            <a-option value="ban">已封禁</a-option>
           </a-select>
         </a-form-item>
         <a-form-item field="性别" label="性别 :">
-          <a-input v-model="userInfo.gender" placeholder="请输入性别" />
+          <a-select v-model="userInfo.gender" placeholder="请输入性别">
+            <a-option :value="1">男</a-option>
+            <a-option :value="0">女</a-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item field="userAvatar" label="头像 :">
+          <a-textarea
+            v-model="userInfo.userAvatar"
+            placeholder="请输入头像地址"
+          />
         </a-form-item>
         <a-form-item field="userProfile" label="简介 :">
           <a-textarea v-model="userInfo.userProfile" placeholder="请输入简介" />
@@ -340,7 +354,7 @@ const doSubmit = () => {
 };
 
 // 从表单中获取的用户头像
-let userAvatarImg = userInfo.value?.userAvatar;
+// let userAvatarImg = userInfo.value?.userAvatar;
 
 /**
  * 上传头像
@@ -364,10 +378,11 @@ const handleOk = async () => {
   userInfo.value?.gender
     ? (userInfo.value.gender = Number(userInfo.value?.gender))
     : "";
-  const res = await Service.postUserUpdate({
-    ...userInfo.value,
-    userAvatar: userAvatarImg,
-  });
+  const res = await Service.postUserUpdate(userInfo.value);
+  // const res = await Service.postUserUpdate({
+  //   ...userInfo.value,
+  //   userAvatar: userAvatarImg,
+  // });
   if (res.code === 0) {
     Message.success("更新成功！");
     visible.value = false;
