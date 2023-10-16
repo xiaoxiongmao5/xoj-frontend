@@ -4,6 +4,8 @@
       :ref="tableRef"
       :columns="columns"
       :data="dataList"
+      :scroll="{ y: 800 }"
+      :scrollbar="true"
       :pagination="{
         showTotal: true,
         pageSize: searchParams.pageSize,
@@ -70,10 +72,14 @@ const columns = [
   {
     title: "id",
     dataIndex: "id",
+    width: 40,
   },
   {
     title: "标题",
     dataIndex: "title",
+    width: 100,
+    ellipsis: true, //显示省略号
+    tooltip: true, //在显示省略号时使用文本提示
   },
   //   {
   //     title: "内容",
@@ -82,38 +88,58 @@ const columns = [
   {
     title: "标签",
     dataIndex: "tags",
+    width: 150,
   },
+  // {
+  //   title: "答案",
+  //   dataIndex: "answer",
+  //   width: 100,
+  //   ellipsis: true, //显示省略号
+  //   tooltip: true, //在显示省略号时使用文本提示
+  // },
   {
-    title: "答案",
-    dataIndex: "answer",
+    title: "答案模版",
+    dataIndex: "answerTemplate",
+    width: 100,
+    ellipsis: true,
+    tooltip: true,
   },
   {
     title: "提交数",
     dataIndex: "submitNum",
+    width: 80,
   },
   {
     title: "通过数",
     dataIndex: "acceptedNum",
+    width: 80,
   },
   {
     title: "判题配置",
     dataIndex: "judgeConfig",
+    width: 150,
   },
   {
     title: "判题用例",
     dataIndex: "judgeCase",
+    width: 100,
+    ellipsis: true,
+    tooltip: true,
   },
   {
     title: "用户id",
     dataIndex: "userId",
+    width: 70,
   },
   {
     title: "创建时间",
     dataIndex: "createTime",
+    width: 100,
   },
   {
     title: "操作",
     slotName: "optional",
+    width: 100,
   },
 ];
 

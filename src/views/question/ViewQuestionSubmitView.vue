@@ -4,7 +4,16 @@
       <a-col :md="12" :xs="24">
         <a-tabs default-active-key="question">
           <a-tab-pane key="question" title="题目">
-            <a-card v-if="question" :title="question.title">
+            <a-card
+              v-if="question"
+              :title="question.title"
+              style="
+                height: 58.5vh;
+                min-height: 380px;
+                overflow: auto;
+                border: none;
+              "
+            >
               <a-descriptions
                 title="判题条件"
                 :column="{ xs: 1, md: 2, lg: 3 }"
@@ -33,15 +42,39 @@
               </template>
             </a-card>
           </a-tab-pane>
-          <!-- <a-tab-pane key="comment" title="评论" disabled> 评论区</a-tab-pane> -->
+          <!-- <a-tab-pane key="comment" title="评论" disabled> 评论区</a-tab-pane> lightblue-->
           <a-tab-pane key="answer" title="答案">
-            <!-- position="left"  -->
-            <a-tabs default-active-key="go" type="rounded" size="small">
+            <a-tabs
+              default-active-key="go"
+              type="rounded"
+              size="small"
+              position="left"
+            >
               <a-tab-pane key="go" title="go">
-                <MdViewer :value="question?.answer ?? '此题暂未提供答案'" />
+                <div
+                  style="
+                    height: 58.5vh;
+                    min-height: 380px;
+                    background: #eee;
+                    overflow: auto;
+                    padding: 0 10px;
+                  "
+                >
+                  <MdViewer :value="question?.answer ?? '此题暂未提供答案'" />
+                </div>
               </a-tab-pane>
               <a-tab-pane key="java" title="java">
-                <MdViewer :value="'此题暂未提供答案'" />
+                <div
+                  style="
+                    height: 58.5vh;
+                    min-height: 380px;
+                    background: #eee;
+                    overflow: auto;
+                    padding: 0 10px;
+                  "
+                >
+                  <MdViewer :value="'此题暂未提供答案'" />
+                </div>
               </a-tab-pane>
             </a-tabs>
           </a-tab-pane>
