@@ -19,13 +19,13 @@
                 :column="{ xs: 1, md: 2, lg: 3 }"
               >
                 <a-descriptions-item label="时间限制">
-                  {{ question.judgeConfig.timeLimit ?? 0 }}
+                  {{ question.judgeConfig.timeLimit ?? 0 }} MS
                 </a-descriptions-item>
                 <a-descriptions-item label="内存限制">
-                  {{ question.judgeConfig.memoryLimit ?? 0 }}
+                  {{ question.judgeConfig.memoryLimit ?? 0 }} KB
                 </a-descriptions-item>
                 <a-descriptions-item label="堆栈限制">
-                  {{ question.judgeConfig.stackLimit ?? 0 }}
+                  {{ question.judgeConfig.stackLimit ?? 0 }} KB
                 </a-descriptions-item>
               </a-descriptions>
               <MdViewer :value="question.content || ''" />
@@ -92,14 +92,61 @@
           提交代码
         </a-button>
         <a-divider size="0" />
-        <!-- <div>{{ judgeInfo?.message ?? "" }} -->
-        <!-- :model-value="judgeInfo?.detail ?? judgeInfo?.message ?? ''" -->
-        <a-textarea
-          :model-value="
-            judgeInfo?.detail ? judgeInfo?.detail : judgeInfo?.message
-          "
-          :auto-size="{ minRows: 2, maxRows: 5 }"
-        />
+
+        <a-descriptions title="" :column="{ xs: 1, md: 2, lg: 2 }">
+          <a-descriptions-item label="执行用时">
+            <template
+              v-if="
+                !judgeInfo ||
+                !judgeInfo.time ||
+                judgeInfo.time == null ||
+                judgeInfo.time == undefined
+              "
+            >
+              <span>0 S</span>
+            </template>
+            <template v-else-if="judgeInfo.time < 1000">
+              <span>{{ judgeInfo.time }} MS</span>
+            </template>
+            <template v-else>
+              <span>{{ (judgeInfo.time / 1000).toFixed(2) }} S</span>
+            </template>
+          </a-descriptions-item>
+
+          <a-descriptions-item label="消耗内存">
+            <template
+              v-if="
+                !judgeInfo ||
+                !judgeInfo.memory ||
+                judgeInfo.memory == null ||
+                judgeInfo.memory == undefined
+              "
+            >
+              <span>0 S</span>
+            </template>
+            <template v-else-if="judgeInfo.memory <= 1024">
+              <span>{{ judgeInfo.memory }} byte</span>
+            </template>
+            <template v-else-if="judgeInfo.memory <= 1024 * 1024">
+              <span>{{ (judgeInfo.memory / 1024).toFixed(2) }} KB</span>
+            </template>
+            <template v-else>
+              <span
+                >{{ (judgeInfo.memory / (1024 * 1024)).toFixed(2) }} MB</span
+              >
+            </template>
+          </a-descriptions-item>
+
+          <a-descriptions-item label="详细输出">
+            <a-textarea
+              :model-value="
+                judgeInfo?.detail ? judgeInfo?.detail : judgeInfo?.message
+              "
+              :auto-size="{ minRows: 2, maxRows: 5 }"
+            />
+          </a-descriptions-item>
+        </a-descriptions>
+
         <!-- </div> -->
         <!-- <CodeViewer :value="form.code as string" :language="form.language" /> -->
       </a-col>

@@ -20,6 +20,7 @@
     </a-form>
     <a-divider size="0" />
     <a-table
+      :column-resizable="true"
       :ref="tableRef"
       :columns="columns"
       :data="dataList"
@@ -85,7 +86,7 @@
           <span>{{ record.judgeInfo.time }} MS</span>
         </template>
         <template v-else>
-          <span>{{ (record.judgeInfo.time / 1000).toFixed(0) }} S</span>
+          <span>{{ (record.judgeInfo.time / 1000).toFixed(2) }} S</span>
         </template>
       </template>
       <!-- 判题状态 -->
@@ -156,7 +157,7 @@ const total = ref(0);
 const searchParams = ref<questionsubmit_QuestionSubmitQueryRequest>({
   questionId: undefined,
   language: undefined,
-  pageSize: 10,
+  pageSize: 20,
   current: 1,
 });
 
@@ -191,7 +192,8 @@ const judgeResultObjtList = {
   "Presentation Error": { text: "展示错误", color: "#0fc6c2" },
   Waiting: { text: "等待中", color: "#168cff" },
   "System Error": { text: "系统错误", color: "#86909c" },
-  "LANGUAGE UNSUPPORTED": { text: "语言不支持", color: "#0fc6c2" },
+  "Language UnSupported": { text: "语言不支持", color: "#0fc6c2" },
+  "Sandbox System Error": { text: "沙箱系统错误", color: "#0fc6c2" },
   default: { text: "未知错误", color: "#86909c" },
 };
 
@@ -277,12 +279,12 @@ const columns = [
     align: "left",
   },
   {
-    title: "内存",
+    title: "消耗内存",
     slotName: "memory",
     align: "left",
   },
   {
-    title: "耗时",
+    title: "执行用时",
     slotName: "time",
     align: "left",
   },
