@@ -29,8 +29,11 @@
         pageSize: searchParams.pageSize,
         current: searchParams.current,
         total,
+        showJumper: true,
+        showPageSize: true,
       }"
       @page-change="onPageChange"
+      @pageSizeChange="onPageSizeChange"
     >
       <template #result="{ record }">
         <!-- 执行状态：等待中、判题中 -->
@@ -157,7 +160,7 @@ const total = ref(0);
 const searchParams = ref<questionsubmit_QuestionSubmitQueryRequest>({
   questionId: undefined,
   language: undefined,
-  pageSize: 20,
+  pageSize: 10,
   current: 1,
 });
 
@@ -314,11 +317,25 @@ const columns = [
     align: "left",
   },
 ];
-
+/**
+ * 分页
+ * @param page
+ */
 const onPageChange = (page: number) => {
   searchParams.value = {
     ...searchParams.value,
     current: page,
+  };
+};
+
+/**
+ * 分页大小
+ * @param size
+ */
+const onPageSizeChange = (size: number) => {
+  searchParams.value = {
+    ...searchParams.value,
+    pageSize: size,
   };
 };
 

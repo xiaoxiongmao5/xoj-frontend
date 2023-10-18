@@ -11,8 +11,11 @@
         pageSize: searchParams.pageSize,
         current: searchParams.current,
         total,
+        showJumper: true,
+        showPageSize: true,
       }"
       @page-change="onPageChange"
+      @pageSizeChange="onPageSizeChange"
     >
       <template #createTime="{ record }">
         {{ moment(record.createTime).format("YYYY-MM-DD HH:mm:ss") }}
@@ -88,9 +91,9 @@ onMounted(() => {
 
 const columns = [
   {
-    title: "id",
+    title: "题号",
     dataIndex: "id",
-    width: 40,
+    width: 60,
   },
   {
     title: "标题",
@@ -106,7 +109,7 @@ const columns = [
   {
     title: "标签",
     dataIndex: "tags",
-    width: 150,
+    width: 130,
   },
   // {
   //   title: "答案",
@@ -165,11 +168,25 @@ const columns = [
     width: 100,
   },
 ];
-
+/**
+ * 分页
+ * @param page
+ */
 const onPageChange = (page: number) => {
   searchParams.value = {
     ...searchParams.value,
     current: page,
+  };
+};
+
+/**
+ * 分页大小
+ * @param size
+ */
+const onPageSizeChange = (size: number) => {
+  searchParams.value = {
+    ...searchParams.value,
+    pageSize: size,
   };
 };
 

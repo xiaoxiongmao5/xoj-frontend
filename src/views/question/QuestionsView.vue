@@ -24,6 +24,7 @@
       }"
       @page-change="onPageChange"
     >
+      <!-- 标签 -->
       <template #tags="{ record }">
         <a-space wrap>
           <a-tag
@@ -186,9 +187,13 @@ const doSubmit = () => {
 };
 </script>
 
-<style scoped>
+<style>
 #questionsView {
   max-width: 1280px;
   margin: 0 auto;
+}
+
+#questionsView .arco-space-horizontal .arco-space-item {
+  margin-bottom: 0px !important;
 }
 </style>
