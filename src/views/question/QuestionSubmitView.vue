@@ -110,7 +110,7 @@
       </template>
       <!-- 提交时间 -->
       <template #createTime="{ record }">
-        {{ moment(record.createTime).format("YYYY-MM-DD") }}
+        {{ moment(record.createTime).format("YYYY-MM-DD HH:mm:SS") }}
       </template>
 
       <template #optional="{ record }">
@@ -188,6 +188,7 @@ const judgeResultObjtList = {
   "Compile Error": { text: "编译错误", color: "#ffb400" },
   "Time Limit Exceeded": { text: "超时", color: "#0fc6c2" },
   "Memory Limit Exceeded": { text: "内存溢出", color: "#ff7d00" },
+  "Out Of Memory": { text: "内存不足", color: "#ff7d00" },
   "Output Limit Exceeded": { text: "输出溢出", color: "#ff7d00" },
   "Presentation Error": { text: "展示错误", color: "#0fc6c2" },
   Waiting: { text: "等待中", color: "#168cff" },

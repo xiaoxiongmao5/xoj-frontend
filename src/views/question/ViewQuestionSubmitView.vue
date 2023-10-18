@@ -94,25 +94,6 @@
         <a-divider size="0" />
 
         <a-descriptions title="" :column="{ xs: 1, md: 2, lg: 2 }">
-          <a-descriptions-item label="执行用时">
-            <template
-              v-if="
-                !judgeInfo ||
-                !judgeInfo.time ||
-                judgeInfo.time == null ||
-                judgeInfo.time == undefined
-              "
-            >
-              <span>0 S</span>
-            </template>
-            <template v-else-if="judgeInfo.time < 1000">
-              <span>{{ judgeInfo.time }} MS</span>
-            </template>
-            <template v-else>
-              <span>{{ (judgeInfo.time / 1000).toFixed(2) }} S</span>
-            </template>
-          </a-descriptions-item>
-
           <a-descriptions-item label="消耗内存">
             <template
               v-if="
@@ -122,7 +103,7 @@
                 judgeInfo.memory == undefined
               "
             >
-              <span>0 S</span>
+              <span>0 byte</span>
             </template>
             <template v-else-if="judgeInfo.memory <= 1024">
               <span>{{ judgeInfo.memory }} byte</span>
@@ -134,6 +115,25 @@
               <span
                 >{{ (judgeInfo.memory / (1024 * 1024)).toFixed(2) }} MB</span
               >
+            </template>
+          </a-descriptions-item>
+
+          <a-descriptions-item label="执行用时">
+            <template
+              v-if="
+                !judgeInfo ||
+                !judgeInfo.time ||
+                judgeInfo.time == null ||
+                judgeInfo.time == undefined
+              "
+            >
+              <span>0 MS</span>
+            </template>
+            <template v-else-if="judgeInfo.time < 1000">
+              <span>{{ judgeInfo.time }} MS</span>
+            </template>
+            <template v-else>
+              <span>{{ (judgeInfo.time / 1000).toFixed(2) }} S</span>
             </template>
           </a-descriptions-item>
 
